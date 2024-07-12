@@ -1,80 +1,179 @@
-![Konecty](logo-konecty.png)
+# Documentação da API de Produtos
 
-# Konecty Open source Tech Business Platform
+## Requisitos
+- Instalação do Node 20.15.1 ([Link para download](https://nodejs.org/pt/download/prebuilt-installer))
+- Baixar as dependências: entre na pasta do projeto (`cd back_end`) e use o comando `npm install`
 
-Nossa empresa está focada no desenvolvimento e manutenção de uma plataforma de código aberto, projetada para impulsionar o sucesso e a eficiência dos negócios de nossos clientes.
+## Visão Geral
+Esta API fornece acesso a um catálogo de produtos, permitindo listar todos os produtos, filtrar por categoria e pesquisar por nome de produto. A API está disponível no endereço base `http://localhost:3001`.
 
-Somos uma empresa repleta de oportunidades, inspiração e liberdade. Seja trabalhando no desenvolvimento de UX/UI, ou utilizando as ultimas tecnologias de backend e inteligência artificial, ou oferecendo suporte aos nossos clientes!
+## Testes
 
-Valorizamos a diversidade e inclusão, convidando candidatos de todos os backgrounds a se juntarem a nós. Aqui, você será tratado com honestidade e respeito; comprometemo-nos a apoiar você e sua carreira, oferecendo um ambiente que nutre a inovação e o pensamento criativo.
+### Descrição dos Testes
 
-**Por que se juntar a nós?**
-- **Impacto Significativo:** Seu trabalho terá um impacto direto no negócio do cliente, melhorando a eficiência e a produtividade dos ecosistema que utiliza nossa plataforma.
-- **Benefícios Concretos:** Oferecemos flexibilidade de horário, trabalho remoto e uma cultura que valoriza o equilíbrio entre vida pessoal e profissional.
-- **Ambiente Diversificado:** Estamos comprometidos com a criação de um ambiente de trabalho inclusivo e acolhedor para todos.
-- **Iniciantes São bem vindos:** Encorajamos candidatos que estão começando suas carreiras a se candidatarem. Oferecemos treinamento, mentorias e oportunidades para que você cresça profissionalmente dentro de nossa equipe.
+1. **Listar Todos os Produtos**
+   - **Descrição:** Testa o método `getAllProducts` para garantir que todos os produtos sejam retornados corretamente.
+   - **Verificação:** Verifica se o retorno é igual ao array `products` definido em `../util/Constants`.
 
+2. **Filtrar Produtos por Categoria**
+   - **Descrição:** Testa o método `getProductsByCategory` para garantir que os produtos sejam filtrados corretamente por categoria.
+   - **Verificação:** Verifica se o retorno do método é igual ao resultado esperado.
 
-## Vagas abertas
+3. **Pesquisar Produtos por Nome**
+   - **Descrição:** Testa o método `searchProductsByName` para garantir que os produtos sejam retornados corretamente quando pesquisados pelo nome.
+   - **Verificação:** Verifica se o retorno do método é igual ao resultado esperado.
 
-### Pessoa Especialista em DevOps - Foco em Kubernetes e CI/CD
-
-**Localização:** Remoto
-
-
-**Visão Geral da Oportunidade:**
-
-Na Konecty Informática Ltda, estamos ampliando nossa equipe e buscamos uma pessoa especialista em DevOps que compartilhe de nossa paixão por inovação, automação e tecnologia. Com um enfoque especial em Kubernetes, ArgoCD, GitOps, Docker, GitHub Actions, Grafana, Prometheus, Jaeger e MongoDB, esta posição é uma convocação para pessoas que estão começando sua jornada profissional ou que desejam aprofundar seus conhecimentos em um ambiente que valoriza a aprendizagem contínua, a inclusão e a diversidade.
-
-
-**Responsabilidades Principais:**
-
-- Gerenciar e otimizar processos de orquestração de contêineres com Kubernetes.
-- Desenvolver e manter pipelines de integração e entrega contínua (CI/CD) utilizando ArgoCD e GitHub Actions.
-- Implementar estratégias de GitOps para uma gestão eficaz de infraestrutura e aplicações.
-- Administrar ambientes baseados em contêineres com Docker, promovendo consistência e eficiência.
-- Monitorar a performance e a saúde das aplicações e da infraestrutura usando ferramentas como Grafana, Prometheus e Jaeger.
-- Gerenciar bases de dados MongoDB, Redis e Cassandra assegurando sua robustez e disponibilidade.
+- **No diretório raiz `back_end` use o seguinte comando para executar os testes: `npm test`**
+- **No diretório raiz `back_end` use o seguinte comando para inciar o servidor da api: `npm start`**
+![Testes Backend](https://raw.githubusercontent.com/herbertleite/imgs/main/saida_testes_backend.png)
 
 
-**Qualificações Desejadas:**
+## Endpoints
 
-- Familiaridade com Kubernetes, ArgoCD, GitOps, Docker, GitHub Actions, Grafana, Prometheus, Jaeger e MongoDB.
-- Disposição para aprender em um ritmo acelerado e se adaptar a novas tecnologias.
-- Habilidade para trabalhar de forma colaborativa em um ambiente diversificado e inclusivo.
-- Capacidade de comunicação eficaz e construtiva, valorizando a diversidade de pensamentos e soluções.
+### 1. Listar Todos os Produtos
+- **Endpoint:** `/products`
+- **Método:** `GET`
+- **Descrição:** Retorna uma lista de todos os produtos disponíveis.
+- **Resposta de Sucesso:**
+```json
+[
+    {
+        "id": 1,
+        "nome": "Air Force 1 Jester XX",
+        "categoria": {
+            "nome": "Nike"
+        },
+        "descricao": {
+            "nome": "Black Sonic Yellow with bold design accents"
+        },
+        "preco": 96.00,
+        "imagem": "https://raw.githubusercontent.com/herbertleite/imgs/main/tenis1.png"
+    },
+    {
+        "id": 2,
+        "nome": "Run Star Hike",
+        "categoria": {
+            "nome": "Converse"
+        },
+        "descricao": {
+            "nome": "Pink high-top sneakers with a chunky sole"
+        },
+        "preco": 85.50,
+        "imagem": "https://raw.githubusercontent.com/herbertleite/imgs/main/tenis2.png"
+    }
+    // Outros produtos...
+]
+```
+### 2. Filtrar Produtos por Categoria
+
+- **Endpoint:** `/products/category/:category`
+- **Método:** `GET`
+- **Descrição:** Retorna uma lista de produtos filtrados por uma categoria específica.
+- **Parâmetros de Caminho:** `category` (Nome da categoria, por exemplo, Nike, Converse, etc.)
+- **Resposta de Sucesso:**
+
+```json
+[
+    {
+        "id": 1,
+        "nome": "Air Force 1 Jester XX",
+        "categoria": {
+            "nome": "Nike"
+        },
+        "descricao": {
+            "nome": "Black Sonic Yellow with bold design accents"
+        },
+        "preco": 96.00,
+        "imagem": "https://raw.githubusercontent.com/herbertleite/imgs/main/tenis1.png"
+    },
+    {
+        "id": 3,
+        "nome": "Air Jordan 1 Retro",
+        "categoria": {
+            "nome": "Nike"
+        },
+        "descricao": {
+            "nome": "Classic high-top sneakers in blue and white"
+        },
+        "preco": 196.00,
+        "imagem": "https://raw.githubusercontent.com/herbertleite/imgs/main/tenis3.png"
+    }
+    // Outros produtos da categoria Nike...
+]
+```
+### 3. Pesquisar Produtos por Nome
+- **Endpoint:** `/products/search/:name`
+- **Método:** `GET`
+- **Descrição:** Retorna uma lista de produtos cujo nome contém a string especificada.
+- **Parâmetros de Caminho:** `name` (String a ser pesquisada no nome dos produtos)
+- **Resposta de Sucesso:**
+
+```json
+[
+    {
+        "id": 4,
+        "nome": "Air Force 1 Shadow",
+        "categoria": {
+            "nome": "Nike"
+        },
+        "descricao": {
+            "nome": "White sneakers with a colorful swoosh"
+        },
+        "preco": 115.00,
+        "imagem": "https://raw.githubusercontent.com/herbertleite/imgs/main/tenis4.png"
+    }
+    // Outros produtos que correspondem ao critério de pesquisa...
+]
+```
 
 
-**O Que Oferecemos:**
+# Documentação do Front-end
 
-- Um papel remoto com flexibilidade, permitindo que você trabalhe de onde se sentir mais confortável e produtivo(a).
-- Um ambiente de trabalho seguro, acolhedor e inclusivo, onde você pode crescer profissionalmente.
-- Acesso a mentoria e oportunidades de desenvolvimento para aprimorar suas habilidades em tecnologias emergentes.
+## Requisitos
+- Instalação do Node 20.15.1 ([Link para download](https://nodejs.org/pt/download/prebuilt-installer))
+- Baixar as dependências: entre na pasta do projeto (`cd front_end`) e use o comando `npm install`
 
+## Visão Geral
+Este documento descreve o frontend desenvolvido com Next.js que consome uma API de produtos para exibir e filtrar uma lista de tênis. O frontend utiliza React com hooks para gerenciar o estado e Next.js para renderização do lado do servidor.
 
-**Como Aplicar:**
+### Estrutura do Frontend
+O frontend é composto por uma única página (HomePage) que lista os produtos e permite filtrar por categoria ou pesquisar por nome.
 
-Para se candidatar, envie seu currículo e uma carta de apresentação (opcional) que destaque sua paixão por DevOps e tecnologia, e como você pode contribuir para um ambiente de trabalho mais diverso e inclusivo, para: [hr@konecty.com](mailto:hr@konecty.com).
+## Testes
 
+### Descrição dos Testes
 
-### Pessoa Desenvolvedora Fullstack
+1. **Teste: should fetch all products successfully**
+   - **Objetivo:** Verificar se o método `getAllProducts` do `ProductService` retorna todos os produtos corretamente.
+   - **Implementação:**
+     - Mock Axios: Utiliza `jest.mock('axios')` para substituir as chamadas reais do Axios por mocks controlados.
+     - Mock de Resposta: Configura `axios.get` para retornar uma promessa resolvida com dados de produtos mockados quando chamado.
+     - Verificação: Chama `getAllProducts` e compara o resultado com `mockProducts` esperado.
 
-**Localização**: Remoto
+2. **Teste: should fetch products by category successfully**
+   - **Objetivo:** Testar se o método `getProductsByCategory` retorna produtos filtrados por categoria corretamente.
+   - **Implementação:**
+     - Mock Axios: Configura `axios.get` para retornar uma promessa resolvida com produtos mockados filtrados por categoria.
+     - Verificação: Chama `getProductsByCategory` com uma categoria específica e compara o resultado com `mockProducts` esperado.
 
-**Responsabilidades:**
+3. **Teste: should search products by name successfully**
+   - **Objetivo:** Garantir que o método `searchProductsByName` retorne produtos corretamente ao pesquisar por nome.
+   - **Implementação:**
+     - Mock Axios: Define `axios.get` para retornar uma promessa resolvida com produtos mockados que correspondem ao termo de pesquisa.
+     - Verificação: Invoca `searchProductsByName` com um termo de pesquisa e verifica se o resultado é igual aos `mockProducts` esperados.
 
-- Desenvolver e manter aplicações web utilizando NodeJS, NextJS, React, TailwindCSS e MongoDB.
-- Integrar serviços back-end com interfaces de usuário front-end.
-- Escrever código limpo, testável e eficiente.
-- Participar de revisões de código e contribuir para a melhoria contínua de nossos processos de desenvolvimento.
+4. **Teste: should handle errors gracefully**
+   - **Objetivo:** Testar o comportamento do `ProductService` ao lidar com erros durante a busca de produtos.
+   - **Implementação:**
+     - Mock Axios: Configura `axios.get` para retornar uma promessa rejeitada com um erro simulado.
+     - Verificação: Utiliza um bloco try/catch para capturar o erro lançado por `getAllProducts` e assegura que a mensagem de erro corresponda ao esperado.
 
-**Requisitos:**
+- **No diretório raiz `front_end` use o seguinte comando para executar os testes: `npx jest`**
+- **No diretório raiz `front_end` use o seguinte comando para inciar o servidor: `npm run dev`**
+![Testes Backend](https://raw.githubusercontent.com/herbertleite/imgs/main/saida_testes_frontend.png)
 
-- Conhecimento em NodeJS, React, Typescript e MongoDB. É desejável ter conhecimento em NextJS, TailwindCSS e Jest, que são tecnologias também utilizadas diariamente nos projetos.
-- Capacidade de aprender rapidamente e adaptar-se a novas tecnologias.
-- Boas práticas de codificação, incluindo compreensão de padrões de projeto e teste unitário.
-- Forte habilidade de resolução de problemas e pensamento analítico.
+### Screenshots
+![Testes Backend](https://raw.githubusercontent.com/herbertleite/imgs/main/visual_resultado_1.png)
+![Testes Backend](https://raw.githubusercontent.com/herbertleite/imgs/main/visual_resultado_2.png)
+###
 
-**Desafio Técnico:**
-
-Para participar do processo seletivo, leia a especificação disponível em [fullstack/desafio.md](fullstack/desafio.md) neste repositório, e envie um pull-request para este repositório com uma solução para o desafio ou uma de suas ideias incríveis. Estamos ansiosos para ver o seu talento em ação e como você pode contribuir para o nosso objetivo de criar a melhor plataforma de código aberto do mercado.
